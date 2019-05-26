@@ -27,6 +27,16 @@ app.get('/api/hello', (req, res) => {
 });
 app.post('/api/world', (req, res) => {
   console.log(req.body);
+  db.collection("users").add({
+    name: req.body
+  })
+  .then(function(docRef) {
+      console.log("Document written with ID: ", docRef.id);
+  })
+  .catch(function(error) {
+      console.error("Error adding document: ", error);
+  });
+
   res.send(
     `I received your POST request. This is what you sent me: ${req.body.post}`,
   );
