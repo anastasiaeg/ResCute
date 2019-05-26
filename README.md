@@ -10,8 +10,6 @@ Install server and client dependencies
 
 ```
 npm install
-cd client
-npm install
 ```
 
 To start the server and client at the same time (from the root of the project)
