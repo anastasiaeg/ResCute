@@ -1,6 +1,9 @@
 import React from 'react';
 import logo from './logo.png';
 import './Landing.css';
+import { Link } from 'react-router-dom';
+import * as ROUTES from '../../constants/routes';
+
 const Landing = () => (
   <div className="Landing">
         <header className="Landing-header">
@@ -17,6 +20,9 @@ const Landing = () => (
             !!!SUPER IMPORTANT INFORMATION!!!
           </a>
         </header>
+        <ul className="Button"> 
+          <Link to={ROUTES.FIND_PET}>Find a Pet</Link>
+        </ul>
       </div>
 );
 

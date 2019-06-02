@@ -12,6 +12,7 @@ import PasswordForgetPage from '../PasswordForget';
 import HomePage from '../Home';
 import AccountPage from '../Account';
 import AdminPage from '../Admin';
+import FindPetPage from '../FindPet';
 
 import * as ROUTES from '../../constants/routes';
 
@@ -29,6 +30,7 @@ const App = () => (
       <Route path={ROUTES.HOME} component={HomePage} />
       <Route path={ROUTES.ACCOUNT} component={AccountPage} />
       <Route path={ROUTES.ADMIN} component={AdminPage} />
+      <Route path={ROUTES.FIND_PET} component={FindPetPage} />
       <header>
       
       </header>
