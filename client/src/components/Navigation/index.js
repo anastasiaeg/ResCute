@@ -7,7 +7,7 @@ import * as ROUTES from '../../constants/routes';
 const Navigation = () => (
   <div>
     <ul className="Button">
-      <Link to={ROUTES.SIGN_IN} >Sign In</Link>
+      <Link to={ROUTES.SIGN_UP} >Login</Link>
     </ul>
     <ul className="Button"> 
       <Link to={ROUTES.LANDING}>Landing</Link>

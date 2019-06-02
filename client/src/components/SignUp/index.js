@@ -1,4 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import * as ROUTES from '../../constants/routes';
+
 
 const SignUp = () => (
   <div className="login-box">
@@ -14,15 +17,10 @@ const SignUp = () => (
           <input type="submit" name="signup-button" value="Sign Up"/>
         
         </div>
-        <div class="right-box">
-          <span class="signinwith">Sign in with<br/>Social Network     </span>
+        <span>Already have an account? Log in below. </span>
         
-        <button class="social facebook">Log in with Facebook</button>    
-        <button class="social twitter">Log in with Twitter</button> 
-        <button class="social google">Log in with Google+</button> 
-        
-        </div>
-        <div class="or">OR</div>
+        <Link to={ROUTES.SIGN_IN} >Sign In</Link>
+       
     </div>  
 );
 
