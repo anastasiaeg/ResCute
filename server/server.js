@@ -1,45 +1,52 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const admin = require('firebase-admin');
+const express = require('express'),
+      session = require('express-session'),
+      bodyParser = require('body-parser'),
+      firebase = require('firebase-admin'),
+      config = require('./secrets/serviceAccountKey.json');
+
+// Create global app object
 const app = express();
 const port = process.env.PORT || 5000;
-var serviceAccount = require('./secrets/serviceAccountKey.json');
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
+// Firebase initialization
+firebase.initializeApp({
+  credential: firebase.credential.cert(config)
 });
-var db = admin.firestore();
-db.collection('users').get()
-  .then((snapshot) => {
-    snapshot.forEach((doc) => {
-      console.log(doc.id, '=>', doc.data());
-    });
-  })
-  .catch((err) => {
-    console.log('Error getting documents', err);
-  });
+var db = firebase.firestore();
 
+// Express setup
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/api/hello', (req, res) => {
-  res.send({ express: 'Hello From Express' });
-});
-app.post('/api/world', (req, res) => {
-  console.log(req.body);
-  db.collection("users").add({
-    name: req.body
-  })
-  .then(function(docRef) {
-      console.log("Document written with ID: ", docRef.id);
-  })
-  .catch(function(error) {
-      console.error("Error adding document: ", error);
-  });
+app.use(require('method-override')());
+app.use(express.static(__dirname + '/public'));
 
-  res.send(
-    `I received your POST request. This is what you sent me: ${req.body.post}`,
-  );
+app.use(session({
+  secret: 'conduit',
+  cookie: { maxAge: 60000 },
+  resave: false,
+  saveUninitialized: false
+}));
+
+app.use('/api', require('./routes'));
+
+/// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
 });
 
-app.listen(port, () => console.log(`Listening on port ${port}`));
+// production error handler
+// no stacktraces leaked to user
+app.use(function(err, req, res, next) {
+  res.status(err.status || 500);
+  res.json({'errors': {
+    message: err.message,
+    error: {}
+  }});
+});
+
+app.listen(port, () => {
+  console.log(`Listening on port ${port}`)
+});
